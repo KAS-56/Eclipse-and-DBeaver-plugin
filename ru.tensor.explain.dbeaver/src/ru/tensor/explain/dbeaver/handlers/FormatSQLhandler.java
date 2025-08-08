@@ -27,7 +27,7 @@ public class FormatSQLhandler extends AbstractHandler {
 		if (editor == null) {
 			return null;
 		}
-		
+
 		String workSql = null;
 		final boolean isSelection;
 		if (editor.getSelectionProvider().getSelection() instanceof TextSelection) {
@@ -41,10 +41,10 @@ public class FormatSQLhandler extends AbstractHandler {
 		}
 
 		final String sql = workSql;
-		
+
 		Job job = new Job(ExplainPostgreSQLPlugin.FORMATTER_TITLE) {
 			@Override
-			protected IStatus run(IProgressMonitor monitor) {	
+			protected IStatus run(IProgressMonitor monitor) {
 				ExplainPostgreSQLPlugin.getExplainAPI().beautifier(sql, (String fmtText) -> {
 					window.getWorkbench().getDisplay().asyncExec(new Runnable() {
 
@@ -52,9 +52,9 @@ public class FormatSQLhandler extends AbstractHandler {
 						public void run() {
 							try {
 								if (fmtText.startsWith("Error")) {
-									throw new Exception (fmtText);
+									throw new Exception(fmtText);
 								}
-								
+
 								IDocument doc = editor.getDocumentProvider().getDocument(editor.getEditorInput());
 
 								if (isSelection) {
@@ -67,14 +67,14 @@ public class FormatSQLhandler extends AbstractHandler {
 									doc.set(fmtText);
 								}
 							} catch (Exception ex) {
-						        String error = "Format SQL query failed: " + ex.getMessage();
+								String error = "Format SQL query failed: " + ex.getMessage();
 								log.log(new Status(IStatus.ERROR, ExplainPostgreSQLPlugin.PLUGIN_ID, error, ex));
 								MessageDialog.openError(window.getShell(), ExplainPostgreSQLPlugin.FORMATTER_TITLE, error);
 							}
 						}
-						
+
 					});
-					
+
 				});
 				return Status.OK_STATUS;
 			}

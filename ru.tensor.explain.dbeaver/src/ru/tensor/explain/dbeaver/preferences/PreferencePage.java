@@ -22,17 +22,9 @@ public class PreferencePage extends FieldEditorPreferencePage implements IWorkbe
 
 	@Override
 	protected void createFieldEditors() {
-		
-		addField(new URLStringFieldEditor(
-				PreferenceConstants.P_SITE,
-				"&API URL:",
-				getFieldEditorParent()
-				));
-		addField(new BooleanFieldEditor(
-				PreferenceConstants.P_EXTERNAL,
-				"&Use external browser",
-				getFieldEditorParent()
-				));
+
+		addField(new URLStringFieldEditor(PreferenceConstants.P_SITE, "&API URL:", getFieldEditorParent()));
+		addField(new BooleanFieldEditor(PreferenceConstants.P_EXTERNAL, "&Use external browser", getFieldEditorParent()));
 	}
 
 }

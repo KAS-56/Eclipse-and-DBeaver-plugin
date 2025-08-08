@@ -1,6 +1,5 @@
 package ru.tensor.explain.dbeaver.preferences;
 
-import java.io.IOException;
 import java.net.URI;
 
 import org.eclipse.core.runtime.ILog;
@@ -12,7 +11,7 @@ import ru.tensor.explain.dbeaver.ExplainPostgreSQLPlugin;
 public class URLStringFieldEditor extends StringFieldEditor {
 
 	private static final ILog log = ExplainPostgreSQLPlugin.getDefault().getLog();
-	
+
 	@Override
 	protected void doStore() {
 		super.doStore();
@@ -39,21 +38,21 @@ public class URLStringFieldEditor extends StringFieldEditor {
 				URI.create(text).toURL().openStream().close();
 				return true;
 			} catch (Exception ex) {
-        		log.error(ex.getMessage(), ex);
+				log.error(ex.getMessage(), ex);
 			}
-		}		
+		}
 		return false;
 	}
-	
-	private static String trimEndChar(String str, char charToTrim) {
-        if (str == null || "".equals(str)) {
-            return str;
-        }
 
-        int i = str.length() - 1;
-        while (i >= 0 && str.charAt(i) == charToTrim) {
-            i--;
-        }
-        return str.substring(0, i + 1);
-    }
+	private static String trimEndChar(String str, char charToTrim) {
+		if (str == null || "".equals(str)) {
+			return str;
+		}
+
+		int i = str.length() - 1;
+		while (i >= 0 && str.charAt(i) == charToTrim) {
+			i--;
+		}
+		return str.substring(0, i + 1);
+	}
 }
