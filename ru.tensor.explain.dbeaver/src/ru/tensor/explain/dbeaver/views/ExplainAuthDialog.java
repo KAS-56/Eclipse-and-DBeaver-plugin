@@ -8,6 +8,7 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.browser.TitleEvent;
 import org.eclipse.swt.browser.TitleListener;
 import org.eclipse.swt.layout.GridData;
@@ -15,8 +16,6 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
-
-import com.equo.chromium.swt.Browser;
 
 import ru.tensor.explain.dbeaver.ExplainPostgreSQLPlugin;
 import ru.tensor.explain.dbeaver.preferences.PreferenceConstants;

@@ -46,10 +46,6 @@ SOFTWARE.
       <update label="Explain PostgreSQL update site" url="https://explain.tensor.ru/downloads/plugins/eclipse/"/>
    </url>
 
-   <requires>
-      <import feature="com.equo.chromium.cef.feature" version="116.0.5" match="perfect"/>
-   </requires>
-
    <plugin
          id="ru.tensor.explain.dbeaver"
          version="0.0.0"/>

@@ -11,7 +11,7 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.swt.SWT;
 
-import com.equo.chromium.swt.Browser;
+import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
