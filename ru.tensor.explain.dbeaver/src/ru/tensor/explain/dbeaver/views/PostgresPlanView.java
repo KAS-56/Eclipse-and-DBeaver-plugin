@@ -20,7 +20,6 @@ import org.eclipse.ui.browser.IWorkbenchBrowserSupport;
 import org.eclipse.ui.part.ViewPart;
 
 import ru.tensor.explain.dbeaver.ExplainPostgreSQLPlugin;
-import ru.tensor.explain.dbeaver.plan.IPlanListener;
 import ru.tensor.explain.dbeaver.preferences.PreferenceConstants;
 
 public class PostgresPlanView extends ViewPart {
@@ -30,14 +29,6 @@ public class PostgresPlanView extends ViewPart {
 	final public static String PLAN_VIEW_ID = "ru.tensor.explain.dbeaver.planView";
 	IPreferenceStore store;
 	ILog log = ExplainPostgreSQLPlugin.getDefault().getLog();
-	
-	IPlanListener _listener = new IPlanListener() {
-		
-		@Override
-		public void planCreated(String plan, String query) {
-			setPlan(plan, query);
-		}
-	};
 
 	public PostgresPlanView() {
 		super();
@@ -57,7 +48,6 @@ public class PostgresPlanView extends ViewPart {
 				)
 			);
 		}
-		ExplainPostgreSQLPlugin.getPlanManager().addPlanListener(_listener);
 	}
 
 	@Override
@@ -129,7 +119,6 @@ public class PostgresPlanView extends ViewPart {
 
 	@Override
 	public void dispose() {
-		ExplainPostgreSQLPlugin.getPlanManager().removePlanListener(_listener);
 		if (eBrowser != null) {
 			eBrowser.close();
 		}

@@ -12,8 +12,6 @@ import org.osgi.framework.Version;
 
 import ru.tensor.explain.dbeaver.api.ExplainAPI;
 import ru.tensor.explain.dbeaver.api.IExplainAPI;
-import ru.tensor.explain.dbeaver.plan.IPlanManager;
-import ru.tensor.explain.dbeaver.plan.PlanManager;
 
 public class ExplainPostgreSQLPlugin extends AbstractUIPlugin {
 	
@@ -24,8 +22,6 @@ public class ExplainPostgreSQLPlugin extends AbstractUIPlugin {
 	private static ExplainPostgreSQLPlugin plugin;
 	
 	private static int VIEW_ACTIVATE = 1;
-	
-	private IPlanManager _planManager;
 	
 	private IExplainAPI _explainAPI;
 	
@@ -57,23 +53,6 @@ public class ExplainPostgreSQLPlugin extends AbstractUIPlugin {
 	public static ExplainPostgreSQLPlugin getDefault() {
 		return plugin;
 	}
-	
-    /**
-     * Returns the plan manager of Execution Plan View
-     * 
-     * @return the plan manager
-     */
-    public static IPlanManager getPlanManager()
-    {
-        synchronized (getDefault())
-        {
-            if (getDefault()._planManager == null)
-            {
-                getDefault()._planManager = new PlanManager();
-            }
-            return getDefault()._planManager;
-        }
-    }
 
     /**
      * Returns the API service

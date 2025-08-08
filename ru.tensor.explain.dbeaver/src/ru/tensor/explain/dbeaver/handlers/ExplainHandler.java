@@ -7,7 +7,6 @@ import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.runtime.ILog;
-import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.handlers.HandlerUtil;
 import org.eclipse.ui.texteditor.ITextEditor;
@@ -101,11 +100,6 @@ public class ExplainHandler extends AbstractHandler {
 		        		PLAN_TASK_TIMEOUT
 		        		) && !CommonUtils.isEmpty(plan[0]))
 		        {
-		    		ExplainPostgreSQLPlugin.getPlanManager().firePlan(
-		    				plan[0],
-		    				sqlQueryText,
-		    				IWorkbenchPage.VIEW_ACTIVATE
-		    				);
 
 		        }
 	        }
