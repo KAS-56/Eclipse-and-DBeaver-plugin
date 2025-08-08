@@ -1,7 +1,9 @@
 package ru.tensor.explain.dbeaver.handlers;
+
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
+import org.eclipse.core.runtime.ILog;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
@@ -16,6 +18,7 @@ import org.eclipse.ui.texteditor.ITextEditor;
 import ru.tensor.explain.dbeaver.ExplainPostgreSQLPlugin;
 
 public class FormatSQLhandler extends AbstractHandler {
+	final private ILog log = ExplainPostgreSQLPlugin.getDefault().getLog();
 
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
@@ -39,10 +42,9 @@ public class FormatSQLhandler extends AbstractHandler {
 
 		final String sql = workSql;
 		
-		
-		Job job = new Job("Explain PostgreSQL Format Thread") {
+		Job job = new Job(ExplainPostgreSQLPlugin.FORMATTER_TITLE) {
 			@Override
-			protected IStatus run(IProgressMonitor monitor) {
+			protected IStatus run(IProgressMonitor monitor) {	
 				ExplainPostgreSQLPlugin.getExplainAPI().beautifier(sql, (String fmtText) -> {
 					window.getWorkbench().getDisplay().asyncExec(new Runnable() {
 
@@ -65,13 +67,9 @@ public class FormatSQLhandler extends AbstractHandler {
 									doc.set(fmtText);
 								}
 							} catch (Exception ex) {
-								ExplainPostgreSQLPlugin.getDefault().getLog().log(
-										new Status(IStatus.ERROR,
-												ExplainPostgreSQLPlugin.PLUGIN_ID,
-												"Format failed! Error: " + ex.getMessage()
-												)
-									);
-								MessageDialog.openError(window.getShell(), "Explain PostgreSQL formatter", ex.getMessage());
+						        String error = "Format SQL query failed: " + ex.getMessage();
+								log.log(new Status(IStatus.ERROR, ExplainPostgreSQLPlugin.PLUGIN_ID, error, ex));
+								MessageDialog.openError(window.getShell(), ExplainPostgreSQLPlugin.FORMATTER_TITLE, error);
 							}
 						}
 						

@@ -12,7 +12,7 @@ public class PreferencePage extends FieldEditorPreferencePage implements IWorkbe
 	public PreferencePage() {
 		super(GRID);
 		setPreferenceStore(ExplainPostgreSQLPlugin.getDefault().getPreferenceStore());
-		setDescription("Explain PostgreSQL plugin settings:");
+		setDescription(ExplainPostgreSQLPlugin.PLUGIN_ID + " plugin settings:");
 	}
 
 	@Override

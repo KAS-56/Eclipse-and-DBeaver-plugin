@@ -1,31 +1,43 @@
 package ru.tensor.explain.dbeaver;
 
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
+
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.Version;
 
 import ru.tensor.explain.dbeaver.api.ExplainAPI;
 import ru.tensor.explain.dbeaver.api.IExplainAPI;
+import ru.tensor.explain.dbeaver.views.PostgresPlanView;
 
 public class ExplainPostgreSQLPlugin extends AbstractUIPlugin {
+
+	// The plug-in bundle Id
+	final private static String BUNDLE_ID = "ru.tensor.explain.dbeaver";
+	
+	// The Execution Plan View Id
+	final public static String PLAN_VIEW_ID = "ru.tensor.explain.dbeaver.planView";
+
+	// The external browser Id	
+	final public static String BROWSER_ID = "ru.tensor.explain.dbeaver.browser";
 	
 	// The plug-in ID
-	public static final String PLUGIN_ID = "Explain PostgreSQL";
+	final public static String PLUGIN_ID = "Explain PostgreSQL";
+	
+	final public static String FORMATTER_TITLE = "Explain PostgreSQL formatter";
+	final public static String EXPLAINER_TITLE = "Explain PostgreSQL explainer";
 
 	// The shared instance
 	private static ExplainPostgreSQLPlugin plugin;
 	
-	private static int VIEW_ACTIVATE = 1;
+	private PostgresPlanView _postgresPlanView;
 	
 	private IExplainAPI _explainAPI;
 	
-	private static final String BUNDLE_ID = "ru.tensor.explain.dbeaver";
 	private static final String platformName = Platform.getProduct().getName() + " " + Platform.getProduct().getDefiningBundle().getVersion().toString();
 	private static final Version pluginVersion = Platform.getBundle(BUNDLE_ID).getVersion();
 	public static final String versionString = platformName + " " + BUNDLE_ID + "/" + pluginVersion.getMajor() + "." + pluginVersion.getMinor() + "." + pluginVersion.getMicro();
@@ -37,6 +49,7 @@ public class ExplainPostgreSQLPlugin extends AbstractUIPlugin {
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
 		plugin = this;
+		ExplainPostgreSQLPlugin.getDefault().getLog().info("VERSION: " + versionString);
 	}
 
 	@Override
@@ -53,99 +66,107 @@ public class ExplainPostgreSQLPlugin extends AbstractUIPlugin {
 	public static ExplainPostgreSQLPlugin getDefault() {
 		return plugin;
 	}
+	
+    /**
+     * Returns the Execution Plan View
+     * 
+     * @return the Execution Plan View
+     */
+    public static PostgresPlanView getPlanView() {
+        synchronized (getDefault()) {
+    		createOrActivateView();
+            return getDefault()._postgresPlanView;
+        }
+    }
+	
+    /**
+     * Set the Execution Plan View
+     */
+    public static void setPlanView(PostgresPlanView view) {      
+    	synchronized (getDefault()) {      
+    		getDefault()._postgresPlanView = view;
+		}   
+	}
+	
+    /**
+     * Clear the Execution Plan View
+     */
+    public static void clearPlanView() {   
+    	setPlanView(null);  
+	}
 
     /**
      * Returns the API service
      * 
      * @return the API service
      */
-    public static IExplainAPI getExplainAPI()
-    {
-        synchronized (getDefault())
-        {
-            if (getDefault()._explainAPI == null)
-            {
+    public static IExplainAPI getExplainAPI() {
+        synchronized (getDefault()) {
+            if (getDefault()._explainAPI == null) {
                 getDefault()._explainAPI = new ExplainAPI();
             }
             return getDefault()._explainAPI;
         }
     }
-    
-	public static void showView(String viewId) {
+
+	private static void createOrActivateView() {
+
     	PlatformUI.getWorkbench().getDisplay().syncExec(new Runnable() {
 			
 			@Override
 			public void run() {
-				
-				IWorkbenchPage activePage = getActivePage();
+		    	
+		    	IWorkbenchPage activePage = getActivePage(getActiveWindow());
+		    	
+		    	if (activePage == null) {
+		    		getDefault().getLog().warn("Active page not found");		    		
+		    		return;
+		    	}
+		        
                 try
                 {
-                	activePage.showView(
-                			viewId,
-                			null,
-                			VIEW_ACTIVATE
-        					);
+                	activePage.showView(PLAN_VIEW_ID, null, IWorkbenchPage.VIEW_ACTIVATE);
                 }
                 catch (PartInitException ex)
                 {
-                    plugin.getLog().error("PlanManager checkview error", ex);
+                	getDefault().getLog().error("ExplainPostgreSQLPlugin create view error: " + ex.getMessage(), ex);
                 }
 				
 			}
 		});
 	}
 	
-	public static void hideView(String viewId) {
-    	PlatformUI.getWorkbench().getDisplay().syncExec(new Runnable() {
-			
-			@Override
-			public void run() {
-				IWorkbenchPage activePage = getActivePage();
-				IViewPart view = activePage.findView(viewId);
-				activePage.hideView(view);			
-			}
-		});
-		
-	}
-	
-	public static IWorkbenchPage getActivePage() {
+	private static IWorkbenchWindow getActiveWindow() {
+
 		// get the active window
         IWorkbenchWindow activeWindow = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
 
         // if can not find the active window, select one from the workbench windows list
         if (activeWindow == null)
         {
-            IWorkbenchWindow[] windows = PlatformUI.getWorkbench().getWorkbenchWindows();
-            for (int i = 0; i < windows.length; i++)
-            {
-                activeWindow = windows[i];
-                if (activeWindow != null)
-                {
-                    break;
-                }
-            }
+            for (IWorkbenchWindow window : PlatformUI.getWorkbench().getWorkbenchWindows()) {
+				if (window == null) continue;
+				return window;
+			}
         }
         
+        return activeWindow;
+	}
+	
+	private static IWorkbenchPage getActivePage(IWorkbenchWindow window) {
+      
         // get the active page in this window
-        IWorkbenchPage activePage = activeWindow.getActivePage();
+        IWorkbenchPage activePage = window.getActivePage();
 
         // if can not find the active page, select one from page list
         if (activePage == null)
         {
-            IWorkbenchPage[] pages = activeWindow.getPages();
-            for (int i = 0; i < pages.length; i++)
-            {
-                activePage = pages[0];
-                if (activePage != null)
-                {
-                    break;
-                }
-            }
+            for (IWorkbenchPage page : window.getPages()) {
+				if (page == null) continue;
+				return page;
+			}
         }
-        
+		
         return activePage;
-
 	}
-
-
 }
