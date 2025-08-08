@@ -5,7 +5,6 @@ Bundle-SymbolicName: ru.tensor.explain.dbeaver;singleton:=true
 Bundle-Version: 1.2.3.qualifier
 Require-Bundle: com.google.gson,
  org.jkiss.dbeaver.ui.editors.sql,
- org.jkiss.dbeaver.model.jdbc,
  org.jkiss.dbeaver.ext.postgresql
 Bundle-Vendor: Tensor Company Ltd
 Automatic-Module-Name: ru.tensor.explain.dbeaver
