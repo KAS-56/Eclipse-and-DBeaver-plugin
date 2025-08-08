@@ -5,6 +5,7 @@
    <extension
          point="org.eclipse.ui.views">
       <view
+            allowMultiple="false"
             category="org.jkiss.dbeaver.core.category"
             class="ru.tensor.explain.dbeaver.views.PostgresPlanView"
             icon="icons/EP.png"
@@ -16,7 +17,7 @@
    <extension
          point="org.eclipse.ui.commands">
       <command
-            categoryId="org.eclipse.datatools.sqltools.sqleditor.category"
+            categoryId="org.jkiss.dbeaver.core.sql"
             id="ru.tensor.explain.dbeaver.formatSQL"
             name="Format SQL">
       </command>
@@ -44,15 +45,6 @@
             class="ru.tensor.explain.dbeaver.handlers.ExplainHandler"
             commandId="ru.tensor.explain.dbeaver.explain">
       </handler>
-   </extension>
-   <extension
-         point="org.eclipse.ui.bindings">
-      <key
-            commandId="ru.tensor.explain.dbeaver.formatSQL"
-            contextId="org.eclipse.ui.contexts.window"
-            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
-            sequence="M1+F+S">
-      </key>
    </extension>
    <extension
          point="org.eclipse.ui.menus">
@@ -133,16 +125,6 @@
                relationship="bottom">
          </view>
       </perspectiveExtension>
-   </extension>
-   <extension
-         point="org.jkiss.dbeaver.sql.plan.view">
-      <view
-            class="ru.tensor.explain.dbeaver.plan.PlanProvider"
-            description="Explain PostgreSQL"
-            icon="icons/EP.png"
-            id="ru.tensor.explain.dbeaver.plan.view"
-            label="Explain PostgreSQL">
-      </view>
    </extension>
 
 </plugin>
