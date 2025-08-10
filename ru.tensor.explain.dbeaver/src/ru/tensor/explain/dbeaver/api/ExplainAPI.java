@@ -104,21 +104,19 @@ public class ExplainAPI implements IExplainAPI {
 					if (statusCode == 302) {
 						Optional<String> location = response.headers().firstValue("Location");
 						if (location.isPresent()) {
+							log.info("Explain result location: " + location.get());
 							return EXPLAIN_URL + location.get();
+						} else {
+							log.error("Location header not found");
+							return EXPLAIN_URL;
 						}
-						log.info("Location header not found");
-						return EXPLAIN_URL;
-					}
-					if (statusCode == 200) {
-						String body = response.body();
-						if (body.length() > 0) {
-							return body;
-						}
-						log.info("Received empty response body");
-						return EXPLAIN_URL;
 					} else {
 						String body = response.body();
-						log.info("Response body: " + body);
+						if (body.isBlank()) {
+							log.error("Received unexpected response code with empty response body");
+						} else {
+							log.error("Received unexpected response code: " + body);
+						}
 						return EXPLAIN_URL;
 					}
 				}).handle((result, ex) -> {
