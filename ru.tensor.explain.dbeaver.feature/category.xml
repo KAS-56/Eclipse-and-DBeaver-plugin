@@ -3,6 +3,6 @@
    <feature id="ru.tensor.explain.dbeaver.feature">
       <category name="ru.tensor.explain"/>
    </feature>
-   <category-def name="ru.tensor.explain" label="Explain PostgreSQL"/>
+   <category-def name="ru.tensor.explain" label="Explain PostgreSQL Custom"/>
    <repository-reference location="https://explain.tensor.ru/downloads/plugins/eclipse/" name="Explain PostgreSQL update site" enabled="true" />
 </site>

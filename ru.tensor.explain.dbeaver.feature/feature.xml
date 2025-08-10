@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="ru.tensor.explain.dbeaver.feature"
-      label="Explain PostgreSQL for DBeaver"
-      version="1.2.3.qualifier"
+      label="Explain PostgreSQL for DBeaver Custom"
+      version="2.0.0.qualifier"
       provider-name="Tensor Company Ltd">
 
    <description url="https://github.com/MGorkov/Eclipse-and-DBeaver-plugin">

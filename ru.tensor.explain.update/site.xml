@@ -3,10 +3,10 @@
    <description name="Explain PostgreSQL update site" url="https://explain.tensor.ru/downloads/plugins/eclipse/">
       Explain PostgreSQL update site
    </description>
-   <feature url="features/ru.tensor.explain.dbeaver.feature_1.2.3.202508090018.jar" id="ru.tensor.explain.dbeaver.feature" version="1.2.3.202508090018">
+   <feature url="features/ru.tensor.explain.dbeaver.feature_2.0.0.202508101500.jar" id="ru.tensor.explain.dbeaver.feature" version="2.0.0.202508101500">
       <category name="ru.tensor.explain"/>
    </feature>
-   <category-def name="ru.tensor.explain" label="Explain PostgreSQL">
+   <category-def name="ru.tensor.explain" label="Explain PostgreSQL Custom">
       <description>
          Analyzes EXPLAIN plan from PostgreSQL and related (Greenplum, Citus, TimescaleDB and Amazon RedShift).
 
